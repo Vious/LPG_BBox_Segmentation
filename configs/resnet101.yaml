@@ -1,0 +1,56 @@
+EXP:
+    ID: voc12
+    OUTPUT_DIR: checkpoint
+    PredictId: predictions
+
+DATASET:
+    N_CLASSES: 21
+    IGNORE_LABEL: 255
+    SCALES: [0.5, 0.75, 1.0, 1.25, 1.5]
+    SPLIT:
+        TRAIN: train_aug
+        VAL: val
+        TEST: test
+
+DATALOADER:
+    NUM_WORKERS: 4
+
+IMAGE:
+    MEAN:
+        R: 122.675
+        G: 116.669
+        B: 104.008
+    SIZE:
+        BASE: # None
+        TRAIN: 321
+        TEST: 513
+
+MODEL:
+    NAME: DeepLabV2_ResNet101
+    N_BLOCKS: [3, 4, 23, 3]
+    ATROUS_RATES: [6, 12, 18, 24]
+    INIT_MODEL: initialModel/resnet101-5d3b4d8f.pth
+    NUM_WORKERS: 4
+
+SOLVER:
+    BATCH_SIZE:
+        TRAIN: 2
+        TEST: 1
+    ITER_MAX: 40000
+    ITER_SIZE: 5
+    ITER_SAVE: 500
+    ITER_TB: 50
+    LR: 2.5e-4
+    MOMENTUM: 0.9
+    OPTIMIZER: sgd
+    POLY_POWER: 0.9
+    WEIGHT_DECAY: 5.0e-4
+    AVERAGE_LOSS: 10
+
+CRF:
+    ITER_MAX: 10
+    POS_W: 3
+    POS_XY_STD: 1
+    BI_W: 4
+    BI_XY_STD: 67
+    BI_RGB_STD: 3    

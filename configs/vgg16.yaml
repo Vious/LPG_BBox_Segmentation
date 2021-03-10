@@ -1,0 +1,49 @@
+EXP:
+    ID: voc12
+    OUTPUT_DIR: checkpoint
+    PredictId: predictions
+
+DATASET:
+    N_CLASSES: 21
+    IGNORE_LABEL: 255
+    SCALES: [0.5, 0.75, 1.0, 1.25, 1.5]
+    SPLIT:
+        TRAIN: train_aug
+        VAL: val
+        TEST: test
+
+DATALOADER:
+    NUM_WORKERS: 4
+
+IMAGE:
+    SIZE:
+        BASE: # None
+        TRAIN: 321
+        TEST: 513
+
+MODEL:
+    NAME: DeepLab_LargeFOV
+    INIT_MODEL: initialModel/init_deeplab_largeFOV.pth
+
+SOLVER:
+    BATCH_SIZE:
+        TRAIN: 30
+        TEST: 2
+    ITER_MAX: 20000
+    ITER_SAVE: 1000
+    ITER_TB: 50
+    LR_DECAY: 10
+    LR: 1.0e-3
+    MOMENTUM: 0.9
+    OPTIMIZER: sgd
+    POLY_POWER: 0.9
+    WEIGHT_DECAY: 5.0e-4
+
+CRF:
+    ITER_MAX: 10
+    POS_W: 3
+    POS_XY_STD: 3
+    BI_W: 5
+    BI_XY_STD: 140
+    BI_RGB_STD: 5
+    

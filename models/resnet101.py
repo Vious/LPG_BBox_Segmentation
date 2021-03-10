@@ -21,11 +21,11 @@ class ASPP(nn.Module):
     
     def forward(self, features):
         return sum([stage(features) for stage in self.children()])
+    
 
-
-class DeepLabV2Resnet101(nn.Sequential):
-    def __init__(self, layers=101, classes=21, atrous_rates=[6, 12, 18, 24], pretrained=True):
-        super(DeepLabV2Resnet101, self).__init__()
+class DeepLabV2_Resnet101(nn.Sequential):
+    def __init__(self, layers=101, num_classes=21, atrous_rates=[6, 12, 18, 24], pretrained=True):
+        super(DeepLabV2_Resnet101, self).__init__()
         assert layers in [50, 101, 152]
         if layers == 50:
             resnet = models.resnet50()
@@ -54,7 +54,7 @@ class DeepLabV2Resnet101(nn.Sequential):
         self.add_module('layer2', layer2)
         self.add_module('layer3', layer3)
         self.add_module('layer4', layer4)
-        self.add_module('aspp', ASPP(featureDimensions, classes, atrous_rates))
+        self.add_module('aspp', ASPP(featureDimensions, num_classes, atrous_rates))
 
 
         for n, m in self.layer3.named_modules():
@@ -68,16 +68,6 @@ class DeepLabV2Resnet101(nn.Sequential):
             elif 'downsample.0' in n:
                 m.stride = (1, 1)
     
-    def forward(self, x):
-        x = self.layer0(x)
-        x = self.layer1(x)
-        x = self.layer2(x)
-        x = self.layer3(x)
-        x = self.layer4(x)
-        x = self.aspp(x)
-
-        return x
-
     def freeze_bn(self):
         for m in self.modules():
             if isinstance(m, nn.BatchNorm2d):
@@ -85,9 +75,11 @@ class DeepLabV2Resnet101(nn.Sequential):
 
 
 if __name__ == "__main__":
-    model = DeepLabV2Resnet101(layers=101, classes=21, pretrained=False).cuda()
+    model = DeepLabV2_Resnet101(layers=101, classes=21, pretrained=False).cuda()
     print(model)
-    image = torch.randn(2, 3, 321, 321).cuda()
+    image = torch.randn(1, 3, 513, 513).cuda()
 
+
+    # print(model)
     print("input:", image.shape)
     print("output:", model(image).shape)
