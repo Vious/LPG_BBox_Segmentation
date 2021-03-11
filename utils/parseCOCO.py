@@ -1,4 +1,5 @@
 import os
+import argparse
 import cv2
 import json
 import numpy as np
@@ -152,6 +153,9 @@ def parseCOCOLabel(dataRoot, split='train2017'):
     print('Done.')
 
 if __name__=="__main__":
-    parseCOCOBBox(dataRoot='/home/vious/data/cocoDataset/', split='train2017')
-    genBboxLabel(dataRoot='/home/vious/data/cocoDataset/', split='train2017')
-    parseCOCOLabel(dataRoot='/home/vious/data/cocoDataset/', split='train2017')
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--dataRoot', default='/home/vious/data/cocoDataset/', help='data root for MS-COCO')
+    args = parser.parse_args()
+    parseCOCOBBox(dataRoot=args.dataRoot, split='train2017')
+    genBboxLabel(dataRoot=args.dataRoot, split='train2017')
+    parseCOCOLabel(dataRoot=args.dataRoot, split='train2017')

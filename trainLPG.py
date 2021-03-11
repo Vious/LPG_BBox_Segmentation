@@ -20,7 +20,8 @@ def train(args):
     Seg_model = Seg_model.to(device)
 
     LPG_model = HourglassNet({'fm':2}, 1, input_channel=5)
-    LPG_model.load_state_dict(torch.load(args.init_lpg_model_path))
+    if args.init_lpg_model_path != '':
+        LPG_model.load_state_dict(torch.load(args.init_lpg_model_path))
     LPG_model = torch.nn.DataParallel(LPG_model, device_ids=device_ids)
     LPG_model = LPG_model.to(device)
     

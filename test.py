@@ -202,7 +202,7 @@ def crf(args):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--type', default='test', help='train or test model')
+    parser.add_argument('--type', default='test', help='test model or crf post-processing')
     parser.add_argument('--root_path', default='/home/vious/data/VOCdevkit/VOC2012', help='path of PASCAL VOC2012 dataset')
     parser.add_argument('--model_type', default='', help='specify segmentation backbone (vgg16 | resnet101)')
     parser.add_argument('--model_path', default='', help='test model path')
